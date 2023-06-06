@@ -35,4 +35,9 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> searchProjectByName(String projectName) {
         return projectRepository.searchByProjectName(projectName);
     }
+
+    @Override
+    public List<Project> getAllProjects() {
+        return (List<Project>)projectRepository.findAll();
+    }
 }

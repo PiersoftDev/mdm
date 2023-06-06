@@ -1,5 +1,6 @@
 package com.piersoft.mdm.api.request.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectDTO {
+public class SearchProjectActivityByProjectCodeActivityCodeDTO {
 
-    private String lnId;
     private String projectCode;
-    private String projectName;
-    private String companyId;
-    private String companyName;
+    private String activityCode;
 }

@@ -13,4 +13,6 @@ public interface ProjectService {
     void updateProject(Project project);
 
     List<Project> searchProjectByName(String projectName);
+
+    List<Project> getAllProjects();
 }

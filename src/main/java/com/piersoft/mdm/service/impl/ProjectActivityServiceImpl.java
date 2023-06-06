@@ -20,7 +20,12 @@ public class ProjectActivityServiceImpl implements ProjectActivityService {
     }
 
     @Override
-    public List<ProjectActivity> searchProjectActivity(String projectId, String activityString) {
-        return null;
+    public List<ProjectActivity> getAllActivitiesForProjectCode(String projectCode) {
+        return projectActivityRepository.searchByProjectCode(projectCode);
+    }
+
+    @Override
+    public List<ProjectActivity> searchActivitiesByProjectCode(String projectCode, String activityDesc) {
+        return projectActivityRepository.searchByProjectCodeAndActivityCode(projectCode, activityDesc);
     }
 }

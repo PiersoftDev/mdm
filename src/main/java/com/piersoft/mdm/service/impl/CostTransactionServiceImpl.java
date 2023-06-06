@@ -16,4 +16,11 @@ public class CostTransactionServiceImpl implements CostTransactionService {
     public void addCostTransaction(CostTransaction costTransaction) {
         costTransactionRepository.save(costTransaction);
     }
+
+    @Override
+    public CostTransaction getCostTransactionByProjectCodeAndActivityCodeAndCostCode(String projectCode, String activityCode, String costCode) {
+        return costTransactionRepository.getCostTransactionByProjectCodeAndActivityCodeAndCostCode(projectCode, activityCode, costCode);
+    }
+
+
 }

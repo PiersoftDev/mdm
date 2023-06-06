@@ -21,5 +21,8 @@ public class Project {
     private String lnId;
     private String projectCode;
     private String projectName;
+    private String companyId;
+    private String companyName;
+
 
 }

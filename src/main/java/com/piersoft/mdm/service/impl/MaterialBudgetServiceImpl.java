@@ -16,4 +16,9 @@ public class MaterialBudgetServiceImpl implements MaterialBudgetService {
     public void addMaterialBudget(MaterialBudget materialBudget) {
         materialBudgetRepository.save(materialBudget);
     }
+
+    @Override
+    public MaterialBudget getMaterialBudget(String projectCode, String activityCode, String itemCode) {
+        return materialBudgetRepository.findByProjectCodeAndActivityCodeAndItemCode(projectCode, activityCode, itemCode);
+    }
 }

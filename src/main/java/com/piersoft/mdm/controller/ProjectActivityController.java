@@ -1,13 +1,11 @@
 package com.piersoft.mdm.controller;
 
+import com.mysql.cj.util.StringUtils;
 import com.piersoft.mdm.api.request.dto.ProjectActivityDTO;
-import com.piersoft.mdm.api.request.dto.ProjectDTO;
+import com.piersoft.mdm.api.request.dto.SearchProjectActivityByProjectCodeActivityCodeDTO;
 import com.piersoft.mdm.api.request.mapper.ProjectActivityMapper;
-import com.piersoft.mdm.api.request.mapper.ProjectMapper;
-import com.piersoft.mdm.persistence.entities.Project;
 import com.piersoft.mdm.persistence.entities.ProjectActivity;
 import com.piersoft.mdm.service.ProjectActivityService;
-import com.piersoft.mdm.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -16,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/v1/masters/project-activities")
@@ -35,10 +36,10 @@ public class ProjectActivityController {
     })
     @PostMapping("/addProjectActivity")
     public void addProject(@RequestBody ProjectActivityDTO projectActivityDTO){
-        logger.debug("Adding project activity with lnId:%s",projectActivityDTO.getLnId());
+        logger.debug("Adding project activity with lnId: "+projectActivityDTO.getLnId());
         ProjectActivity projectActivity = projectActivityMapper.sourceToDestination(projectActivityDTO);
         projectActivityService.addProjectActivity(projectActivity);
-        logger.debug("Successfully added project activity with lnId:%s",projectActivityDTO.getLnId());
+        logger.debug("Successfully added project activity with lnId: "+projectActivityDTO.getLnId());
     }
 
 
@@ -48,9 +49,15 @@ public class ProjectActivityController {
             @ApiResponse(code = 404, message = "Not found - The project activity not found")
     })
     @PostMapping("/searchProjectActivity")
-    public void searchProjectActivity(@PathVariable String projectId, @PathVariable String activityString){
-//        logger.debug("Searching project activity with projectLnId: %s and activityString: %s",projectId, activityString);
-//        projectActivityService.addProjectActivity(projectActivity);
-//        logger.debug("Successfully added project activity with lnId:%s",projectActivityDTO.getLnId());
+    public ResponseEntity<List<ProjectActivity>> searchProjectActivity(@RequestBody SearchProjectActivityByProjectCodeActivityCodeDTO projectCodeActivityCodeDTO){
+        String projectCode = projectCodeActivityCodeDTO.getProjectCode();
+        String activityString = projectCodeActivityCodeDTO.getActivityCode();
+        logger.debug("Searching project activity with projectCode: "+projectCode+" and activityString: "+ activityString);
+        if(!Objects.isNull(projectCodeActivityCodeDTO) && StringUtils.isNullOrEmpty(projectCodeActivityCodeDTO.getActivityCode()) ) {
+            return ResponseEntity.ok(projectActivityService.getAllActivitiesForProjectCode(projectCodeActivityCodeDTO.getProjectCode()));
+        }
+        List<ProjectActivity> projectActivities = projectActivityService.searchActivitiesByProjectCode(projectCode, activityString);
+        logger.debug("Done searching project activity with projectCode: "+projectCode+" and activityString: "+ activityString);
+        return ResponseEntity.ok(projectActivities);
     }
 }

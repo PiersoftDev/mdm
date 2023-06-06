@@ -8,7 +8,6 @@ import com.piersoft.mdm.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.CustomLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +34,35 @@ public class ProjectController {
     })
     @PostMapping("/addProject")
     public void addProject(@RequestBody ProjectDTO projectDTO){
-        logger.debug("Adding project with lnId:%s",projectDTO.getLnId());
+        logger.debug("Adding project with lnId: "+projectDTO.getLnId());
         Project project = projectMapper.sourceToDestination(projectDTO);
         projectService.addProject(project);
-        logger.debug("Successfully added project with lnId:%s",projectDTO.getLnId());
+        logger.debug("Successfully added project with lnId: "+projectDTO.getLnId());
     }
 
-    @ApiOperation(value = "Search for a projectName", notes = "Returns a projectName entity", response = ResponseEntity.class)
+    @ApiOperation(value = "Search for a projectName", notes = "Returns a list of projects that matches projectName", response = ResponseEntity.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returns a projectName entity"),
-            @ApiResponse(code = 404, message = "Not found - The projectName not found")
+            @ApiResponse(code = 200, message = "Successfully returns a list of projects that matches projectName"),
+            @ApiResponse(code = 404, message = "Not found - no projects found")
     })
     @GetMapping("/searchProject/{projectName}")
     public ResponseEntity<List<Project>> searchProject(@PathVariable String  projectName){
-        logger.debug("Searching for a projectName that contains : %s",projectName);
+        logger.debug("Searching for a projectName that contains : "+projectName);
         List<Project> projectList = projectService.searchProjectByName(projectName);
-        logger.debug("Done searching for a projectName that contains :%s",projectName);
+        logger.debug("Done searching for a projectName that contains : "+projectName);
+        return ResponseEntity.ok(projectList);
+    }
+
+    @ApiOperation(value = "Find all projects", notes = "Returns a list of projects", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully a list of projects"),
+            @ApiResponse(code = 404, message = "Not found - no projects found")
+    })
+    @GetMapping("/searchProject/")
+    public ResponseEntity<List<Project>> getAllProjects(){
+        logger.debug("Finding all projects");
+        List<Project> projectList = projectService.getAllProjects();
+        logger.debug("Done finding all projects");
         return ResponseEntity.ok(projectList);
     }
 

@@ -17,4 +17,5 @@ public interface ProjectRepository extends CrudRepository<Project, String> {
       @Query("SELECT e FROM Project e WHERE projectName LIKE %:projectName%")
       List<Project> searchByProjectName(@Param("projectName") String projectName);
 
+
 }

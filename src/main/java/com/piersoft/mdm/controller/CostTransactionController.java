@@ -42,4 +42,19 @@ public class CostTransactionController {
         costTransactionService.addCostTransaction(costTransaction);
         logger.debug("Successfully cost transaction with lnId:%s",costTransactionDTO.getLnId());
     }
+
+    // get Cost object by projectCode, activityCode, itemCode
+    @ApiOperation(value = "Get cost transaction", notes = "Returns a cost transaction", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully returns cost transaction"),
+            @ApiResponse(code = 404, message = "Not found - No cost transaction found")
+    })
+    @PostMapping("/getCostTransaction")
+    public ResponseEntity<CostTransaction> getCostTransaction(@RequestBody CostTransactionDTO costTransactionDTO){
+        logger.debug("Searching for a cost transaction that contains : "+costTransactionDTO.getLnId());
+        CostTransaction costTransaction = costTransactionService.getCostTransactionByProjectCodeAndActivityCodeAndCostCode(
+                costTransactionDTO.getProjectCode(), costTransactionDTO.getActivity(), costTransactionDTO.getCostObject());
+        logger.debug("Done searching for a cost transaction that contains : "+costTransactionDTO.getLnId());
+        return ResponseEntity.ok(costTransaction);
+    }
 }

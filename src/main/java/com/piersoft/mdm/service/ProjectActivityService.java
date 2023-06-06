@@ -8,5 +8,7 @@ public interface ProjectActivityService {
 
     void addProjectActivity(ProjectActivity projectActivity);
 
-    List<ProjectActivity> searchProjectActivity(String projectId, String activityString);
+    List<ProjectActivity> getAllActivitiesForProjectCode(String projectCode);
+
+    List<ProjectActivity> searchActivitiesByProjectCode(String projectCode, String activityDesc);
 }
