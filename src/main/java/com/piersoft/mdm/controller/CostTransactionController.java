@@ -1,6 +1,7 @@
 package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.CostTransactionDTO;
+import com.piersoft.mdm.api.request.dto.GetCostTransactionRequestDTO;
 import com.piersoft.mdm.api.request.dto.MaterialBudgetDTO;
 import com.piersoft.mdm.api.request.mapper.CostTransactionMapper;
 import com.piersoft.mdm.api.request.mapper.MaterialBudgetMapper;
@@ -43,18 +44,21 @@ public class CostTransactionController {
         logger.debug("Successfully cost transaction with lnId:%s",costTransactionDTO.getLnId());
     }
 
-    // get Cost object by projectCode, activityCode, itemCode
+
     @ApiOperation(value = "Get cost transaction", notes = "Returns a cost transaction", response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returns cost transaction"),
             @ApiResponse(code = 404, message = "Not found - No cost transaction found")
     })
     @PostMapping("/getCostTransaction")
-    public ResponseEntity<CostTransaction> getCostTransaction(@RequestBody CostTransactionDTO costTransactionDTO){
-        logger.debug("Searching for a cost transaction that contains : "+costTransactionDTO.getLnId());
+    public ResponseEntity<CostTransaction> getCostTransaction(@RequestBody GetCostTransactionRequestDTO costTransactionDTO){
+        logger.debug("Searching for a cost transaction that contains projectCode:"+costTransactionDTO.getProjectCode()+" activityCode:"+costTransactionDTO.getActivityCode()+" costObject:"+costTransactionDTO.getItemCode());
         CostTransaction costTransaction = costTransactionService.getCostTransactionByProjectCodeAndActivityCodeAndCostCode(
-                costTransactionDTO.getProjectCode(), costTransactionDTO.getActivity(), costTransactionDTO.getCostObject());
-        logger.debug("Done searching for a cost transaction that contains : "+costTransactionDTO.getLnId());
+                costTransactionDTO.getProjectCode(), costTransactionDTO.getActivityCode(), costTransactionDTO.getItemCode());
+        logger.debug("Done searching for a cost transaction that contains projectCode:"+costTransactionDTO.getProjectCode()+" activityCode:"+costTransactionDTO.getActivityCode()+" costObject:"+costTransactionDTO.getItemCode());
+        if(costTransaction == null){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(costTransaction);
     }
 }

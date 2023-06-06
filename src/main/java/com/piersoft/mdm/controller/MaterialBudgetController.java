@@ -1,5 +1,6 @@
 package com.piersoft.mdm.controller;
 
+import com.piersoft.mdm.api.request.dto.GetMaterialBudgetRequestDTO;
 import com.piersoft.mdm.api.request.dto.MaterialBudgetDTO;
 import com.piersoft.mdm.api.request.dto.ProjectActivityDTO;
 import com.piersoft.mdm.api.request.mapper.MaterialBudgetMapper;
@@ -42,17 +43,18 @@ public class MaterialBudgetController {
         materialBudgetService.addMaterialBudget(materialBudget);
         logger.debug("Successfully added material budget with lnId:%s",materialBudgetDTO.getLnId());
     }
-    
+
+
     @ApiOperation(value = "Get material budget", notes = "Returns a material budget", response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returns material budget"),
             @ApiResponse(code = 404, message = "Not found - No material budget found")
     })
     @PostMapping("/getMaterialBudget")
-    public ResponseEntity<MaterialBudget> getMaterialBudget(@RequestBody MaterialBudgetDTO materialBudgetDTO){
-        logger.debug("Finding material budget with projectCode:%s, activityCode:%s, itemCode:%s",materialBudgetDTO.getProjectCode(),materialBudgetDTO.getActivityCode(),materialBudgetDTO.getItemCode());
+    public ResponseEntity<MaterialBudget> getMaterialBudget(@RequestBody GetMaterialBudgetRequestDTO materialBudgetDTO){
+        logger.debug("Finding material budget with projectCode:"+materialBudgetDTO.getProjectCode()+", activityCode:"+materialBudgetDTO.getActivityCode()+", itemCode:"+materialBudgetDTO.getItemCode());
         MaterialBudget materialBudget = materialBudgetService.getMaterialBudget(materialBudgetDTO.getProjectCode(),materialBudgetDTO.getActivityCode(),materialBudgetDTO.getItemCode());
-        logger.debug("Done finding material budget with projectCode:%s, activityCode:%s, itemCode:%s",materialBudgetDTO.getProjectCode(),materialBudgetDTO.getActivityCode(),materialBudgetDTO.getItemCode());
+        logger.debug("Done finding material budget with projectCode:"+materialBudgetDTO.getProjectCode()+", activityCode:"+materialBudgetDTO.getActivityCode()+", itemCode:"+materialBudgetDTO.getItemCode());
         return ResponseEntity.ok(materialBudget);
     }
 }
