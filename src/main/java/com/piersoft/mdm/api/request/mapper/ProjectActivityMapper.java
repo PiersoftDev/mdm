@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ProjectActivityMapper {
 
-    ProjectActivity sourceToDestination(ProjectActivityDTO projectActivityDTO);
+    ProjectActivity toEntity(ProjectActivityDTO projectActivityDTO);
 
-    ProjectActivityDTO destinationToSource(ProjectActivity projectActivity);
+    ProjectActivityDTO toDTO(ProjectActivity projectActivity);
 }

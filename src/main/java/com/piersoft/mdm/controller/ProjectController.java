@@ -35,21 +35,21 @@ public class ProjectController {
     @PostMapping("/addProject")
     public void addProject(@RequestBody ProjectDTO projectDTO){
         logger.debug("Adding project with lnId: "+projectDTO.getLnId());
-        Project project = projectMapper.sourceToDestination(projectDTO);
+        Project project = projectMapper.toEntity(projectDTO);
         projectService.addProject(project);
         logger.debug("Successfully added project with lnId: "+projectDTO.getLnId());
     }
 
-    @ApiOperation(value = "Search for a projectName", notes = "Returns a list of projects that matches projectName", response = ResponseEntity.class)
+    @ApiOperation(value = "Search for a projectName", notes = "Returns a list of projects that contain given string", response = ResponseEntity.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returns a list of projects that matches projectName"),
+            @ApiResponse(code = 200, message = "Successfully returns a list of projects that contains the search string"),
             @ApiResponse(code = 404, message = "Not found - no projects found")
     })
     @GetMapping("/searchProject/{projectName}")
     public ResponseEntity<List<Project>> searchProject(@PathVariable String  projectName){
-        logger.debug("Searching for a projectName that contains : "+projectName);
+        logger.debug("Searching for a project by name that contains : {}", projectName);
         List<Project> projectList = projectService.searchProjectByName(projectName);
-        logger.debug("Done searching for a projectName that contains : "+projectName);
+        logger.debug("Done searching for a project by name that contains : {}", projectName);
         return ResponseEntity.ok(projectList);
     }
 

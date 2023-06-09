@@ -1,13 +1,9 @@
 package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.ItemDTO;
-import com.piersoft.mdm.api.request.dto.MaterialBudgetDTO;
 import com.piersoft.mdm.api.request.mapper.ItemMapper;
-import com.piersoft.mdm.api.request.mapper.MaterialBudgetMapper;
 import com.piersoft.mdm.persistence.entities.Item;
-import com.piersoft.mdm.persistence.entities.MaterialBudget;
 import com.piersoft.mdm.service.ItemService;
-import com.piersoft.mdm.service.MaterialBudgetService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -38,7 +34,7 @@ public class ItemController {
     @PostMapping("/addItem")
     public void addItem(@RequestBody ItemDTO itemDTO){
         logger.debug("Adding item with lnId: "+itemDTO.getLnId());
-        Item item = itemMapper.sourceToDestination(itemDTO);
+        Item item = itemMapper.toEntity(itemDTO);
         itemService.addItem(item);
         logger.debug("Successfully added item with lnId: "+itemDTO.getLnId());
     }

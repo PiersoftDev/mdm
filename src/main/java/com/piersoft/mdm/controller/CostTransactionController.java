@@ -2,13 +2,9 @@ package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.CostTransactionDTO;
 import com.piersoft.mdm.api.request.dto.GetCostTransactionRequestDTO;
-import com.piersoft.mdm.api.request.dto.MaterialBudgetDTO;
 import com.piersoft.mdm.api.request.mapper.CostTransactionMapper;
-import com.piersoft.mdm.api.request.mapper.MaterialBudgetMapper;
 import com.piersoft.mdm.persistence.entities.CostTransaction;
-import com.piersoft.mdm.persistence.entities.MaterialBudget;
 import com.piersoft.mdm.service.CostTransactionService;
-import com.piersoft.mdm.service.MaterialBudgetService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -39,7 +35,7 @@ public class CostTransactionController {
     @PostMapping("/addCostTransaction")
     public void addCostTransaction(@RequestBody CostTransactionDTO costTransactionDTO){
         logger.debug("Adding cost transaction with lnId:%s",costTransactionDTO.getLnId());
-        CostTransaction costTransaction = costTransactionMapper.sourceToDestination(costTransactionDTO);
+        CostTransaction costTransaction = costTransactionMapper.toEntity(costTransactionDTO);
         costTransactionService.addCostTransaction(costTransaction);
         logger.debug("Successfully cost transaction with lnId:%s",costTransactionDTO.getLnId());
     }

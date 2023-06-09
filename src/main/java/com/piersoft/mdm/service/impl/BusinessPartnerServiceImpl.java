@@ -6,6 +6,8 @@ import com.piersoft.mdm.service.BusinessPartnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BusinessPartnerServiceImpl implements BusinessPartnerService {
 
@@ -15,5 +17,10 @@ public class BusinessPartnerServiceImpl implements BusinessPartnerService {
     @Override
     public void addBusinessPartner(BusinessPartner businessPartner) {
         businessPartnerRepository.save(businessPartner);
+    }
+
+    @Override
+    public List<BusinessPartner> searchBusinessPartnerByName(String businessPartnerName) {
+        return businessPartnerRepository.searchByBusinessPartnerName(businessPartnerName);
     }
 }

@@ -1,13 +1,9 @@
 package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.BusinessPartnerDTO;
-import com.piersoft.mdm.api.request.dto.CostTransactionDTO;
 import com.piersoft.mdm.api.request.mapper.BusinessPartnerMapper;
-import com.piersoft.mdm.api.request.mapper.CostTransactionMapper;
 import com.piersoft.mdm.persistence.entities.BusinessPartner;
-import com.piersoft.mdm.persistence.entities.CostTransaction;
 import com.piersoft.mdm.service.BusinessPartnerService;
-import com.piersoft.mdm.service.CostTransactionService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -15,10 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/masters/business-partner")
@@ -38,8 +33,22 @@ public class BusinessPartnerController {
     @PostMapping("/addBusinessPartner")
     public void addBusinessPartner(@RequestBody BusinessPartnerDTO businessPartnerDTO){
         logger.debug("Adding business partner with lnId:%s",businessPartnerDTO.getLnId());
-        BusinessPartner businessPartner = businessPartnerMapper.sourceToDestination(businessPartnerDTO);
+        BusinessPartner businessPartner = businessPartnerMapper.toDTO(businessPartnerDTO);
         businessPartnerService.addBusinessPartner(businessPartner);
         logger.debug("Successfully business partner with lnId:%s",businessPartnerDTO.getLnId());
+    }
+
+    // search for a business partner by name
+    @ApiOperation(value = "Search for a business partner", notes = "Returns a business partner", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully returns a business partner"),
+            @ApiResponse(code = 404, message = "Not found - no business partner found")
+    })
+    @GetMapping("/searchBusinessPartner/{businessPartnerName}")
+    public ResponseEntity<List<BusinessPartner>> searchBusinessPartner(@PathVariable String  businessPartnerName){
+        logger.debug("Searching for a business partner by name that contains : {}", businessPartnerName);
+        List<BusinessPartner> businessPartnerList = businessPartnerService.searchBusinessPartnerByName(businessPartnerName);
+        logger.debug("Done searching for a business partner by name that contains : {}", businessPartnerName);
+        return ResponseEntity.ok(businessPartnerList);
     }
 }

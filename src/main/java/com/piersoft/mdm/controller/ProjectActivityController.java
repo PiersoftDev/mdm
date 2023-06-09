@@ -37,7 +37,7 @@ public class ProjectActivityController {
     @PostMapping("/addProjectActivity")
     public void addProject(@RequestBody ProjectActivityDTO projectActivityDTO){
         logger.debug("Adding project activity with lnId: "+projectActivityDTO.getLnId());
-        ProjectActivity projectActivity = projectActivityMapper.sourceToDestination(projectActivityDTO);
+        ProjectActivity projectActivity = projectActivityMapper.toEntity(projectActivityDTO);
         projectActivityService.addProjectActivity(projectActivity);
         logger.debug("Successfully added project activity with lnId: "+projectActivityDTO.getLnId());
     }

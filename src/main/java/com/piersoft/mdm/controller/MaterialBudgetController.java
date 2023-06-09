@@ -2,13 +2,9 @@ package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.GetMaterialBudgetRequestDTO;
 import com.piersoft.mdm.api.request.dto.MaterialBudgetDTO;
-import com.piersoft.mdm.api.request.dto.ProjectActivityDTO;
 import com.piersoft.mdm.api.request.mapper.MaterialBudgetMapper;
-import com.piersoft.mdm.api.request.mapper.ProjectActivityMapper;
 import com.piersoft.mdm.persistence.entities.MaterialBudget;
-import com.piersoft.mdm.persistence.entities.ProjectActivity;
 import com.piersoft.mdm.service.MaterialBudgetService;
-import com.piersoft.mdm.service.ProjectActivityService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -39,7 +35,7 @@ public class MaterialBudgetController {
     @PostMapping("/addMaterialBudget")
     public void addMaterialBudget(@RequestBody MaterialBudgetDTO materialBudgetDTO){
         logger.debug("Adding material budget with lnId:%s",materialBudgetDTO.getLnId());
-        MaterialBudget materialBudget = materialBudgetMapper.sourceToDestination(materialBudgetDTO);
+        MaterialBudget materialBudget = materialBudgetMapper.toEntity(materialBudgetDTO);
         materialBudgetService.addMaterialBudget(materialBudget);
         logger.debug("Successfully added material budget with lnId:%s",materialBudgetDTO.getLnId());
     }
