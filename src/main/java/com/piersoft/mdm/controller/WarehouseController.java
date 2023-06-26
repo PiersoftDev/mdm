@@ -49,7 +49,7 @@ public class WarehouseController {
             @ApiResponse(code = 404, message = "Not found - The warehouse not found")
     })
     @PostMapping("/searchWarehouse/{name}")
-    public ResponseEntity<List<Warehouse>> searchWarehouse(@RequestBody String name){
+    public ResponseEntity<List<Warehouse>> searchWarehouse(@PathVariable String name){
         logger.debug("Searching warehouse with name: {}",name);
         List<Warehouse> warehouse = warehouseService.searchWarehouse(name);
         logger.debug("Successfully retrieved warehouse with name: {}",name);
