@@ -4,6 +4,7 @@ import com.mysql.cj.util.StringUtils;
 import com.piersoft.mdm.api.request.dto.ProjectActivityDTO;
 import com.piersoft.mdm.api.request.dto.SearchProjectActivityByProjectCodeActivityCodeDTO;
 import com.piersoft.mdm.api.request.mapper.ProjectActivityMapper;
+import com.piersoft.mdm.api.response.dto.GenericResponseDTO;
 import com.piersoft.mdm.persistence.entities.ProjectActivity;
 import com.piersoft.mdm.service.ProjectActivityService;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,11 +37,12 @@ public class ProjectActivityController {
             @ApiResponse(code = 404, message = "Not found - The project activity not found")
     })
     @PostMapping("/addProjectActivity")
-    public void addProject(@RequestBody ProjectActivityDTO projectActivityDTO){
-        logger.debug("Adding project activity with lnId: "+projectActivityDTO.getLnId());
+    public ResponseEntity<GenericResponseDTO> addProject(@RequestBody ProjectActivityDTO projectActivityDTO){
+        logger.debug("Adding project activity with lnId::{}",projectActivityDTO.getLnId());
         ProjectActivity projectActivity = projectActivityMapper.toEntity(projectActivityDTO);
-        projectActivityService.addProjectActivity(projectActivity);
-        logger.debug("Successfully added project activity with lnId: "+projectActivityDTO.getLnId());
+        projectActivity = projectActivityService.addProjectActivity(projectActivity);
+        logger.debug("Successfully added project activity with lnId::{}",projectActivityDTO.getLnId());
+        return ResponseEntity.ok(GenericResponseDTO.builder().data(projectActivity.getLnId()).statusCode(HttpStatus.OK).messageCode("Successfully added project activity").build());
     }
 
 

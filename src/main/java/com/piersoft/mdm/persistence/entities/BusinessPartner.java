@@ -18,8 +18,6 @@ import javax.persistence.Id;
 public class BusinessPartner {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
     private String lnId;
     private String bpCode;
     private String bpDesc;

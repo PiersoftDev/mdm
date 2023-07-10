@@ -18,8 +18,6 @@ import javax.persistence.Id;
 public class ItemGroup {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
     private String lnId;
     private String itemGroupCode;
     private String itemGroupDesc;

@@ -3,6 +3,7 @@ package com.piersoft.mdm.controller;
 import com.piersoft.mdm.api.request.dto.GetMaterialBudgetRequestDTO;
 import com.piersoft.mdm.api.request.dto.MaterialBudgetDTO;
 import com.piersoft.mdm.api.request.mapper.MaterialBudgetMapper;
+import com.piersoft.mdm.api.response.dto.GenericResponseDTO;
 import com.piersoft.mdm.persistence.entities.MaterialBudget;
 import com.piersoft.mdm.service.MaterialBudgetService;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,11 +35,13 @@ public class MaterialBudgetController {
             @ApiResponse(code = 404, message = "Not found - The material budget not found")
     })
     @PostMapping("/addMaterialBudget")
-    public void addMaterialBudget(@RequestBody MaterialBudgetDTO materialBudgetDTO){
-        logger.debug("Adding material budget with lnId:%s",materialBudgetDTO.getLnId());
+    public ResponseEntity<GenericResponseDTO> addMaterialBudget(@RequestBody MaterialBudgetDTO materialBudgetDTO){
+        logger.debug("Adding material budget with lnId::{}",materialBudgetDTO.getLnId());
         MaterialBudget materialBudget = materialBudgetMapper.toEntity(materialBudgetDTO);
-        materialBudgetService.addMaterialBudget(materialBudget);
-        logger.debug("Successfully added material budget with lnId:%s",materialBudgetDTO.getLnId());
+        materialBudget = materialBudgetService.addMaterialBudget(materialBudget);
+        logger.debug("Successfully added material budget with lnId::{}",materialBudgetDTO.getLnId());
+        return ResponseEntity.ok(GenericResponseDTO.builder().statusCode(HttpStatus.OK).data(materialBudget).messageCode("Successfully added material budget").success(true).build());
+
     }
 
 

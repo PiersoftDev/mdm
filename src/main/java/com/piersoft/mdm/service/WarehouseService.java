@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface WarehouseService {
 
-    void createWarehouse(Warehouse warehouse);
+    Warehouse createWarehouse(Warehouse warehouse);
 
     List<Warehouse> searchWarehouse(String name);
 

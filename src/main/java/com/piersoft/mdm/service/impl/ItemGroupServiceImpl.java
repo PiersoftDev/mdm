@@ -16,8 +16,8 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 
 
     @Override
-    public Long saveItemGroup(ItemGroup itemGroup) {
-       return  itemGroupRepository.save(itemGroup).getId();
+    public ItemGroup saveItemGroup(ItemGroup itemGroup) {
+       return  itemGroupRepository.save(itemGroup);
     }
 
     @Override

@@ -15,8 +15,8 @@ public class ProjectActivityServiceImpl implements ProjectActivityService {
     private ProjectActivityRepository projectActivityRepository;
 
     @Override
-    public void addProjectActivity(ProjectActivity projectActivity) {
-        projectActivityRepository.save(projectActivity);
+    public ProjectActivity addProjectActivity(ProjectActivity projectActivity) {
+        return projectActivityRepository.save(projectActivity);
     }
 
     @Override

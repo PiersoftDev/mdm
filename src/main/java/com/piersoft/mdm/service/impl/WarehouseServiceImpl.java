@@ -15,8 +15,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     private WarehouseRepository warehouseRepository;
 
     @Override
-    public void createWarehouse(Warehouse warehouse) {
-        warehouseRepository.save(warehouse);
+    public Warehouse createWarehouse(Warehouse warehouse) {
+        return warehouseRepository.save(warehouse);
     }
 
     @Override

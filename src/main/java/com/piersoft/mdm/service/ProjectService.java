@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProjectService {
 
-    public void addProject(Project project);
+    public Project addProject(Project project);
 
     public void deleteProject(String projectId);
 

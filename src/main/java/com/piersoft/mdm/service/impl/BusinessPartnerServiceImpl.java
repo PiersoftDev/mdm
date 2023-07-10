@@ -15,8 +15,8 @@ public class BusinessPartnerServiceImpl implements BusinessPartnerService {
     private BusinessPartnerRepository businessPartnerRepository;
 
     @Override
-    public void addBusinessPartner(BusinessPartner businessPartner) {
-        businessPartnerRepository.save(businessPartner);
+    public BusinessPartner addBusinessPartner(BusinessPartner businessPartner) {
+        return businessPartnerRepository.save(businessPartner);
     }
 
     @Override

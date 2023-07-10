@@ -3,6 +3,7 @@ package com.piersoft.mdm.service.impl;
 import com.piersoft.mdm.persistence.entities.Project;
 import com.piersoft.mdm.persistence.repositories.ProjectRepository;
 import com.piersoft.mdm.service.ProjectService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +14,13 @@ import java.util.List;
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(ProjectServiceImpl.class);
     @Autowired
     private ProjectRepository projectRepository;
 
     @Override
-    public void addProject(Project project) {
-        projectRepository.save(project);
+    public Project addProject(Project project) {
+        return projectRepository.save(project);
     }
 
     @Override

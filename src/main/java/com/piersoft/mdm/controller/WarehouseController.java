@@ -2,6 +2,7 @@ package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.WarehouseDTO;
 import com.piersoft.mdm.api.request.mapper.WarehouseMapper;
+import com.piersoft.mdm.api.response.dto.GenericResponseDTO;
 import com.piersoft.mdm.persistence.entities.Warehouse;
 import com.piersoft.mdm.service.WarehouseService;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,11 +37,12 @@ public class WarehouseController {
             @ApiResponse(code = 404, message = "Not found - The warehouse not found")
     })
     @PostMapping("/createWarehouse")
-    public void createWarehouse(@RequestBody WarehouseDTO warehouseDTO){
-        logger.debug("Adding warehouse with lnId: {}",warehouseDTO.getLnId());
+    public ResponseEntity<GenericResponseDTO> createWarehouse(@RequestBody WarehouseDTO warehouseDTO){
+        logger.debug("Adding warehouse with lnId::{}",warehouseDTO.getLnId());
         Warehouse warehouse = warehouseMapper.toEntity(warehouseDTO);
-        warehouseService.createWarehouse(warehouse);
-        logger.debug("Successfully created warehouse with lnId: {}",warehouseDTO.getLnId());
+        warehouse = warehouseService.createWarehouse(warehouse);
+        logger.debug("Successfully created warehouse with lnId::{}",warehouseDTO.getLnId());
+        return ResponseEntity.ok(GenericResponseDTO.builder().data(warehouse).success(true).messageCode("Successfully created warehouse").statusCode(HttpStatus.OK).build());
     }
 
 

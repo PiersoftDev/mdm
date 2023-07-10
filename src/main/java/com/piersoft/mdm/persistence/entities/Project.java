@@ -16,8 +16,6 @@ import javax.persistence.*;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
     private String lnId;
     private String projectCode;
     private String projectName;

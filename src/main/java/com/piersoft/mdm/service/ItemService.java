@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ItemService {
 
-    void addItem(Item item);
+    Item addItem(Item item);
 
     List<Item> getListOfItemsMatchingDesc(String desc);
 }

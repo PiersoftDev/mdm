@@ -3,6 +3,7 @@ package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.ItemGroupDTO;
 import com.piersoft.mdm.api.request.mapper.ItemGroupMapper;
+import com.piersoft.mdm.api.response.dto.GenericResponseDTO;
 import com.piersoft.mdm.persistence.entities.ItemGroup;
 import com.piersoft.mdm.persistence.repositories.ItemGroupRepository;
 import com.piersoft.mdm.service.ItemGroupService;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,12 +50,12 @@ public class ItemGroupController {
             @ApiResponse(code = 404, message = "Not found - The item group not found")
     })
     @PostMapping("/saveItemGroup")
-    public ResponseEntity<Long> saveItemGroup(@RequestBody ItemGroupDTO itemGroupDTO){
+    public ResponseEntity<GenericResponseDTO> saveItemGroup(@RequestBody ItemGroupDTO itemGroupDTO){
         logger.debug("Saving item group with name: {} and lnId: {}",itemGroupDTO.getItemGroupDesc(),itemGroupDTO.getLnId());
         ItemGroup itemGroup = itemGroupMapper.toEntity(itemGroupDTO);
-        Long itemGroupId = itemGroupService.saveItemGroup(itemGroup);
+        itemGroup = itemGroupService.saveItemGroup(itemGroup);
         logger.debug("Successfully saved item group with name: {} and lnId: {}",itemGroupDTO.getItemGroupDesc(),itemGroupDTO.getLnId());
-        return ResponseEntity.ok(itemGroupId);
+        return ResponseEntity.ok(GenericResponseDTO.builder().data(itemGroup).statusCode(HttpStatus.OK).success(true).messageCode("Successfully added item group").build());
     }
 
 }

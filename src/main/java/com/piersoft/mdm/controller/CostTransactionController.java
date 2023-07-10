@@ -3,6 +3,7 @@ package com.piersoft.mdm.controller;
 import com.piersoft.mdm.api.request.dto.CostTransactionDTO;
 import com.piersoft.mdm.api.request.dto.GetCostTransactionRequestDTO;
 import com.piersoft.mdm.api.request.mapper.CostTransactionMapper;
+import com.piersoft.mdm.api.response.dto.GenericResponseDTO;
 import com.piersoft.mdm.persistence.entities.CostTransaction;
 import com.piersoft.mdm.service.CostTransactionService;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,11 +35,12 @@ public class CostTransactionController {
             @ApiResponse(code = 404, message = "Not found - The cost transaction for an item not found")
     })
     @PostMapping("/addCostTransaction")
-    public void addCostTransaction(@RequestBody CostTransactionDTO costTransactionDTO){
+    public ResponseEntity<GenericResponseDTO> addCostTransaction(@RequestBody CostTransactionDTO costTransactionDTO){
         logger.debug("Adding cost transaction with lnId:%s",costTransactionDTO.getLnId());
         CostTransaction costTransaction = costTransactionMapper.toEntity(costTransactionDTO);
-        costTransactionService.addCostTransaction(costTransaction);
+        costTransaction = costTransactionService.addCostTransaction(costTransaction);
         logger.debug("Successfully cost transaction with lnId:%s",costTransactionDTO.getLnId());
+        return ResponseEntity.ok(GenericResponseDTO.builder().data(costTransaction).success(true).messageCode("Successfully added cost transaction").statusCode(HttpStatus.OK).build());
     }
 
 

@@ -18,8 +18,6 @@ import javax.persistence.Id;
 public class Warehouse {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
     private String lnId;
     private String projectCode;
     private String whCode;

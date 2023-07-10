@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -11,7 +14,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GenericResponseDTO {
 
-    private Long masterDataId;
-    private String msg;
-    private String errorMsg;
+    private HttpStatus statusCode;
+    private Object  data;
+    private String messageCode;
+    private Boolean success;
+    private List<String> errors;
 }

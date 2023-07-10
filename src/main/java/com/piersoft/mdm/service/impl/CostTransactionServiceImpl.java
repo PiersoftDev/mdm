@@ -18,8 +18,8 @@ public class CostTransactionServiceImpl implements CostTransactionService {
     private CostTransactionRepository costTransactionRepository;
 
     @Override
-    public void addCostTransaction(CostTransaction costTransaction) {
-        costTransactionRepository.save(costTransaction);
+    public CostTransaction addCostTransaction(CostTransaction costTransaction) {
+        return costTransactionRepository.save(costTransaction);
     }
 
     @Override

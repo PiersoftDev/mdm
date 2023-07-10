@@ -13,8 +13,8 @@ public class MaterialBudgetServiceImpl implements MaterialBudgetService {
     private MaterialBudgetRepository materialBudgetRepository;
 
     @Override
-    public void addMaterialBudget(MaterialBudget materialBudget) {
-        materialBudgetRepository.save(materialBudget);
+    public MaterialBudget addMaterialBudget(MaterialBudget materialBudget) {
+        return materialBudgetRepository.save(materialBudget);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.piersoft.mdm.controller;
 
 import com.piersoft.mdm.api.request.dto.ItemDTO;
 import com.piersoft.mdm.api.request.mapper.ItemMapper;
+import com.piersoft.mdm.api.response.dto.GenericResponseDTO;
 import com.piersoft.mdm.persistence.entities.Item;
 import com.piersoft.mdm.service.ItemService;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,11 +34,12 @@ public class ItemController {
             @ApiResponse(code = 404, message = "Not found - The item not found")
     })
     @PostMapping("/addItem")
-    public void addItem(@RequestBody ItemDTO itemDTO){
-        logger.debug("Adding item with lnId: "+itemDTO.getLnId());
+    public ResponseEntity<GenericResponseDTO> addItem(@RequestBody ItemDTO itemDTO){
+        logger.debug("Adding item with lnId::{}",itemDTO.getLnId());
         Item item = itemMapper.toEntity(itemDTO);
-        itemService.addItem(item);
-        logger.debug("Successfully added item with lnId: "+itemDTO.getLnId());
+        item = itemService.addItem(item);
+        logger.debug("Successfully added item with lnId::{}",itemDTO.getLnId());
+        return ResponseEntity.ok(GenericResponseDTO.builder().data(item).success(true).messageCode("Successfully added item").statusCode(HttpStatus.OK).build());
     }
 
     @ApiOperation(value = "Get all items", notes = "Returns a list of items", response = ResponseEntity.class)

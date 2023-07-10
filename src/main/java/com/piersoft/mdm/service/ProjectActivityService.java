@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProjectActivityService {
 
-    void addProjectActivity(ProjectActivity projectActivity);
+    ProjectActivity addProjectActivity(ProjectActivity projectActivity);
 
     List<ProjectActivity> getAllActivitiesForProjectCode(String projectCode);
 

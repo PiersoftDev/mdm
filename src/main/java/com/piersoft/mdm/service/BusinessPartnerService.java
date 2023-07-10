@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BusinessPartnerService {
 
-    void addBusinessPartner(BusinessPartner businessPartner);
+    BusinessPartner addBusinessPartner(BusinessPartner businessPartner);
 
     List<BusinessPartner> searchBusinessPartnerByName(String businessPartnerName);
 }

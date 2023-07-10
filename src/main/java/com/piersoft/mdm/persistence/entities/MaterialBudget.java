@@ -19,8 +19,6 @@ import javax.persistence.Id;
 public class MaterialBudget {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
     private String lnId;
     private String projectCode;
     private String planCode;
